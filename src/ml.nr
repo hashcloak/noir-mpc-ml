@@ -2,6 +2,8 @@ use crate::quantized::{get_bytes, is_negative, Quantized};
 
 fn approx_sigmoid(x: Quantized) -> Quantized {
     // Follows https://github.com/data61/MP-SPDZ/blob/master/Compiler/ml.py#L110
+    // Piece-wise approximate sigmoid as in
+    // Hong et al. https://arxiv.org/abs/2002.04344
     // [-5, -2.5, 2.5, 5]
     let cuts: [Quantized; 4] = [
         Quantized::new(-327680), // -5/2^-16, -327680
