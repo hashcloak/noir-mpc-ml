@@ -50,7 +50,7 @@ impl Quantized {
         let negative = is_negative(temp);
 
         // To correctly scale down we temporary flip the sign
-        if negative {
+        if negative == 1 {
             temp = 21888242871839275222246405745257275088548364400416034343698204186575808495616
                 - temp
                 + 1;
@@ -70,7 +70,7 @@ impl Quantized {
 
         let mut new_x: Field = Field::from_be_bytes::<32>(truncated);
         // Flip back sign if the output is negative
-        if negative {
+        if negative == 1 {
             new_x = 21888242871839275222246405745257275088548364400416034343698204186575808495616
                 - new_x
                 + 1;
@@ -107,9 +107,14 @@ pub fn is_positive(x: Field) -> bool {
 
 // check if there are bytes from 0-15, then it is negative
 // This assumes the values that are multiplied have max ~60-63 bits
-pub fn is_negative(x: Field) -> bool {
+// returns 1 for true, 0 for false
+pub fn is_negative(x: Field) -> Field {
     let (_, higher_bytes) = decompose(x);
-    higher_bytes != 0
+    if higher_bytes == 0 {
+        0
+    } else {
+        1
+    }
 }
 
 impl Ord for Quantized { // TODO benchmark
@@ -177,19 +182,19 @@ fn test_is_negative() {
     // Test 1: checking if it's negative for a positive value.
     // a = 0.2   =>   0.2 * 2^16 = 13107
     let a: Field = 13107;
-    assert(!is_negative(a));
+    assert(is_negative(a) == 0);
 
     // Test 2: checking if it's negative for a negative value.
     // a = -0.2  =>   -0.2 * 2^16 = -13107
     // Hence, -13107 mod p = p - 13107 = 21888242871839275222246405745257275088548364400416034343698204186575808482510
     let a = 21888242871839275222246405745257275088548364400416034343698204186575808482510;
-    assert(is_negative(a));
+    assert(is_negative(a) == 1);
 
     // Test 3: checing if it's negative for a negative larger value.
     // a = -1301.34  =>  -1301.34 * 2^16 = -85284618
     // Hence, -85284618 mod p = p - 85284618 = 21888242871839275222246405745257275088548364400416034343698204186575723210999
     let a = 21888242871839275222246405745257275088548364400416034343698204186575723210999;
-    assert(is_negative(a));
+    assert(is_negative(a) == 1);
 }
 
 #[test]
