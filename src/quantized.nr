@@ -112,24 +112,16 @@ pub fn is_negative(x: Field) -> bool {
     higher_bytes != 0
 }
 
-impl Ord for Quantized { // TODO is it cheaper to create a function that returns a bool directly?
+impl Ord for Quantized { // TODO benchmark
     fn cmp(self: Self, other: Self) -> Ordering {
         if self.x == other.x {
             Ordering::equal()
         }
 
-        let self_positive = is_positive(self.x);
-        let other_positive = is_positive(other.x);
-
-        if (self_positive & !other_positive) {
+        let (_, self_hi) = decompose(self.x);
+        let (_, sub_hi) = decompose(self.x - other.x);
+        if (self_hi == 0) & (sub_hi == 0) {
             Ordering::greater()
-        } else if self_positive == other_positive {
-            let self_smallest = self.x.lt(other.x);
-            if self_smallest {
-                Ordering::less()
-            } else {
-                Ordering::greater()
-            }
         } else {
             Ordering::less()
         }
