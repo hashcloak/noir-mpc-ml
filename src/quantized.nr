@@ -98,13 +98,6 @@ impl Mul for Quantized {
     }
 }
 
-/// Check if the integer value is possitive based on the Field value used to
-/// encode it.
-pub fn is_positive(x: Field) -> bool {
-    let (_, higher_bytes) = decompose(x);
-    higher_bytes == 0
-}
-
 // check if there are bytes from 0-15, then it is negative
 // This assumes the values that are multiplied have max ~60-63 bits
 // returns 1 for true, 0 for false
