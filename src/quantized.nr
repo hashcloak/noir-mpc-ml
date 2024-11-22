@@ -110,21 +110,21 @@ pub fn is_negative(x: Field) -> Field {
     }
 }
 
-impl Ord for Quantized { // TODO benchmark
+impl Ord for Quantized {
     fn cmp(self: Self, other: Self) -> Ordering {
         if self.x == other.x {
             Ordering::equal()
         }
 
-        let (_, self_hi) = decompose(self.x);
         let (_, sub_hi) = decompose(self.x - other.x);
-        if (self_hi == 0) & (sub_hi == 0) {
+        if (sub_hi == 0) {
             Ordering::greater()
         } else {
             Ordering::less()
         }
     }
 }
+
 fn main(x: Field, y: pub Field) {
     assert(x != y);
 }
@@ -168,6 +168,14 @@ fn test_order() {
     let b = 21888242871839275222246405745257275088548364400416034343698204186575808482510;
     let b_quantized = Quantized { x: b };
     assert(a_quantized < b_quantized);
+
+    // 21888242871839275222246405745257275088548364400416034343698204186575808495617 - 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593efff8001
+    // - 32768
+    // 21888242871839275222246405745257275088548364400416034343698204186575808495617 - 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593effb0001
+    let a = Quantized { x: 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593efff8001 };
+    // - 327680
+    let b = Quantized { x: 0x30644e72e131a029b85045b68181585d2833e84879b9709143e1f593effb0001 };
+    assert(a > b);
 }
 
 #[test]
