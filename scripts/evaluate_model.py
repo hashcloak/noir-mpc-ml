@@ -56,7 +56,7 @@ if __name__ == "__main__":
     print("Evaluations:", evaluations)
 
     # Compute the accuracy
-    accuracy = (1 / test_data.shape[0]) * np.sum(np.abs(evaluations - response_var))
+    accuracy = (1 / test_data.shape[0]) * np.sum(evaluations == response_var)
     print("Accuracy:", accuracy.item())
     
 
