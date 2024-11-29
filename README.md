@@ -103,7 +103,7 @@ number of epochs $E$.
 1. Let $w \in \mathbb{R}^m$ and $b \in \mathbb{R}$ initialized in zero.
 2. Execute the following steps $E$ times:
 
-- For each $j \in {1, \dots, m}, $w_j = w_j - (\alpha / n) \cdot \sum_{i=1}^n [\sigma(w \cdot x_i + b) - y_i] \cdot X_{ij}
+- For each $j \in {1, \dots, m}$, $w_j = w_j - (\alpha / n) \cdot \sum_{i=1}^n [\sigma(w \cdot x_i + b) - y_i] \cdot X_{ij}$
 - $b = b - (\alpha / n) \cdot \sum_{i=1}^n [\sigma(w \cdot x_i + b) - y_i]$
 
 3. Return $w$ and $b$.
