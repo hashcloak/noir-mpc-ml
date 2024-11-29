@@ -80,8 +80,32 @@ In the representation, the fixed-point numbers are represented by a `Field`
 element that is wrapped in the `Quantized` struct. This field element will
 represent a fractional number that has $k$ bits in total and $f$ of those $k$
 bits are used to represent the decimal part. We will denote this set of
-fractional numbers as $\mathbb{Q}_{\langle k, f \rangle}$.
+fractional numbers as $\mathbb{Q}_{\langle k, f \rangle}$. An element
+$\tilde{x} \in \mathbb{Q}_{\langle k, f \rangle}$ can be encoded as a `Field`
+element by computing $(x = \tilde{x} \cdot 2^{-f}) \mod p$ where $p$ is the order
+of the `Field`. Adding two `Quantized` elements corresponds to add both encodings.
+However, the multiplication requires a truncation given that multiplying both encodings
+results in a number with precision $2f$.
 
 ## Logistic regression training
 
-## References
+The implementation of the logistic training algorithm is done by using the
+gradient descent method. This algorithm is an iterative method that updates the
+weight of the parameters of the model in the direction of the gradient of a
+log-loss function.
+
+The algorithm is as follows:
+
+**Inputs:** the data samples $X \in \mathbb{R}^{(n \times m)}$, the labels
+$y \in \mathbb{R}^{n}$, the learning rate $\alpha \in \mathbb{R}$, and the
+number of epochs $E$.
+
+1. Let $w \in \mathbb{R}^m$ and $b \in \mathbb{R}$ initialized in zero.
+2. Execute the following steps $E$ times:
+  2.1. For each $j \in {1, \dots, m}, $w_j = w_j - (\alpha / n) \cdot \sum_{i=1}^n [\sigma(w \cdot x_i + b) - y_i] \cdot X_{ij}
+  2.2. $b = b - (\alpha / n) \cdot \sum_{i=1}^n [\sigma(w \cdot x_i + b) - y_i]$
+3. Return $w$ and $b$.
+
+## Acknowledgements
+
+We thank Aztec for funding this project.
