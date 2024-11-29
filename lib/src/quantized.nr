@@ -160,6 +160,12 @@ impl Ord for Quantized {
     }
 }
 
+impl Eq for Quantized {
+    fn eq(self: Self, other: Self) -> bool {
+        self.x == other.x
+    }
+}
+
 fn main(x: Field, y: pub Field) {
     assert(x != y);
 }

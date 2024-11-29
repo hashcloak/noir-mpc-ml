@@ -67,6 +67,7 @@ class MultiClassModel:
             print("Params for model", model_idx)
             print(model.weights)
             print(model.bias)
+            model_idx += 1
 
 
 def sigmoid(x):
