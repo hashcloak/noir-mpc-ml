@@ -23,10 +23,16 @@ if __name__ == "__main__":
 
     # Select SAMPLES_TRAIN + SAMPLES_TEST random elements from the dataset.
     dataset = utils.resample(iris_dataset, n_samples=SAMPLES_TRAIN + SAMPLES_TEST)
-    print(dataset.head())
+    print("DATASET")
+    print(dataset)
 
     # Divide the dataset into train and test without binarizing.
-    X_train, X_test, y_train, y_test = model_selection.train_test_split(dataset.iloc[:, :4], dataset.iloc[:, -1], train_size=SAMPLES_TRAIN, random_state=1)
+    X_train, X_test, y_train, y_test = model_selection.train_test_split(
+        dataset.iloc[:, :4],
+        dataset.iloc[:, -1],
+        train_size=SAMPLES_TRAIN,
+        random_state=1,
+    )
 
     # Assemble test dataset and save it into a file without binarizing the
     # response variable.
@@ -36,23 +42,27 @@ if __name__ == "__main__":
     test_df["species"] = y_test
     test_df.to_csv("datasets/test_data.csv")
 
-    print(train_df.head())
-    print(test_df.head())
+    print("TRAIN DATASET")
+    print(train_df)
+    print("TEST DATASET")
+    print(test_df)
+
+    # Save the train dataset before binarizing the response variable
+    train_df.to_csv("./datasets/train_data_original.csv")
 
     # Binarizing the target.
     label_binarizer = preprocessing.LabelBinarizer()
     label_binarizer_output = label_binarizer.fit_transform(train_df["species"])
-    label_df = pd.DataFrame(label_binarizer_output, columns=label_binarizer.classes_, index=train_df.index)
+    label_df = pd.DataFrame(
+        label_binarizer_output, columns=label_binarizer.classes_, index=train_df.index
+    )
 
-    print(label_df.head())
+    print("LABELS")
+    print(label_df)
 
     train_df_binarized = pd.concat([train_df, label_df], axis=1)
     train_df_binarized.drop(columns=["species"], inplace=True)
-    print(train_df_binarized.head())
+    print("BINARIZED DATASET")
+    print(train_df_binarized)
 
     train_df_binarized.to_csv("./datasets/train_data.csv", index=False)
-
-
-
-
-

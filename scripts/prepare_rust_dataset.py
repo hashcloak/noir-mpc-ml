@@ -3,7 +3,6 @@ This script reads the train dataset from the datasets/ folder and converts it
 into Rust format. The output is provided through the stdout.
 """
 
-from sklearn import datasets
 import pandas as pd
 
 if __name__ == "__main__":
@@ -22,7 +21,7 @@ if __name__ == "__main__":
 
     print("let labels_class0 = [")
     for i in range(dataset.shape[0]):
-        print(f"\t{dataset.iloc[i, -1]:.1f},")  # Force 0.0 or 1.0 format
+        print(f"\t{dataset.iloc[i, -3]:.1f},")  # Force 0.0 or 1.0 format
     print("];")
 
     print("//================== LABELS ===========================")
@@ -36,5 +35,5 @@ if __name__ == "__main__":
 
     print("let labels_class2 = [")
     for i in range(dataset.shape[0]):
-        print(f"\t{dataset.iloc[i, -3]:.1f},")  # Force 0.0 or 1.0 format
+        print(f"\t{dataset.iloc[i, -1]:.1f},")  # Force 0.0 or 1.0 format
     print("];")
