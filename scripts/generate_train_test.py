@@ -22,7 +22,9 @@ if __name__ == "__main__":
     iris_dataset["species"] = iris.target
 
     # Select SAMPLES_TRAIN + SAMPLES_TEST random elements from the dataset.
-    dataset = utils.resample(iris_dataset, n_samples=SAMPLES_TRAIN + SAMPLES_TEST)
+    dataset = utils.resample(
+        iris_dataset, n_samples=SAMPLES_TRAIN + SAMPLES_TEST, random_state=1
+    )
     print("DATASET")
     print(dataset)
 

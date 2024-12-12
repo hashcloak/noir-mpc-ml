@@ -43,9 +43,12 @@ class MultiClassModel:
         for model in self.models:
             pred_model = model.predict_probability(X)
             predictions.append(pd.DataFrame(pred_model, columns=[col_num]))
+            print(pred_model)
             col_num += 1
         individual_predictions = pd.concat(predictions, axis=1)
+        print(individual_predictions)
         result = individual_predictions.idxmax(axis=1)
+        print(result)
         return result.to_numpy()
 
     def print_params(self):

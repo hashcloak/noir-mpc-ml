@@ -40,6 +40,7 @@ if __name__ == "__main__":
         print("Model", model_idx)
         print("Weights:", estimator.coef_)
         print("Bias", estimator.intercept_)
+        print("Iters:", estimator.n_iter_)
         model_idx += 1
 
     print("accuracy =", accuracy)

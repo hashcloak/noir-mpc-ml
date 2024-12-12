@@ -1,0 +1,8 @@
+[package]
+name = "two_class_training"
+type = "bin"
+authors = [""]
+compiler_version = ">=0.36.0"
+
+[dependencies]
+noir_mpc_ml = { path = "../../lib" }
