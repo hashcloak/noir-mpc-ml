@@ -42,7 +42,7 @@ FEATURES=$(jq .features $METADATA_FILE)
 CLASSES=$(jq .classes $METADATA_FILE)
 
 # Step 3: Adjust Noir code with dynamic epochs and training samples
-python3 adjust_noir_code.py --epochs $EPOCHS --samples-train $SAMPLES_TRAIN
+python3 write_noir_test.py --epochs $EPOCHS --samples-train $SAMPLES_TRAIN
 
 # Step 4: Run Noir tests
 cd noir_project

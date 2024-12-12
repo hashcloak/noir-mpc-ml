@@ -64,6 +64,25 @@ $N$ is the number of samples and $C$ is the number of classes. The `labels`
 matrix will have a 1 in the position $(i, c)$ if the $i$-th sample is of class
 $c$, otherwise, the entry will have a 0.
 
+## Benchmarks (WIP)
+
+For iris dataset. Check `benchmarking` folder to run benchmarks and tests. 
+```
+epochs,samples_train,acir_opcodes,circuit_size
+5,10,156595,233384
+5,20,260650,387935
+5,30,364726,542162
+5,40,468576,696830
+10,10,339976,505226
+10,20,573556,854462
+10,30,807142,1203194
+10,40,1040292,1552532
+15,10,523789,777749
+15,20,886834,1321910
+15,30,1249870,1865387
+15,40,1612260,2409635
+```
+
 ## Fixed-point arithmetic
 
 The fixed point arithmetic follows the strategy presented in the paper of

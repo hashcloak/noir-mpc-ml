@@ -8,13 +8,24 @@ The current script does the following:
 
 Note that there are conversions happening of the data in between because the original data is in floats and the Noir library works with Quantized. 
 
-## Run
+## Prerequisites
+
+This works with `nargo` version `1.0.0-beta.0` and `bb` version `0.63.0`. 
 
 ```bash
-$ ./run_benchmarking.sh
+$ noirup --version 1.0.0-beta.0
+$ bbup --v 0.63.0
 ```
 
-Make executionable with `$ chmod +x run_benchmarking.sh`. 
+## Run
+
+### Single test
+
+```bash
+$ ./run_single_test.sh
+```
+
+Make executionable with `$ chmod +x run_single_test.sh`. 
 
 Optionally, define the following parameters
 - `--epochs=`
@@ -28,9 +39,35 @@ Default values:
 - test samples 20
 - dataset "iris"
 
-## Examples
+#### Examples
 
 Dataset [digits](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html), 20 epochs, 50 training samples and 20 (default) test samples. 
 ```bash
-$ ./run_benchmarking.sh --dataset=digits --epochs=20 --samples-train=50
+$ ./cleanup.sh
+$ ./run_single_test.sh --dataset=digits --epochs=20 --samples-train=50
+```
+
+### Prove & verify
+
+This generates data like above and populates a `main` function that takes as input all the features information and calls `train_multi_class`. Then, it follows [these steps](https://noir-lang.org/docs/getting_started/quick_start#compiling-and-executing) to execute the program, prove and verify the proof. 
+
+```bash
+$ ./cleanup.sh
+$ ./run_proof_example.sh
+```
+
+### Obtain gatecount
+
+This creates the same Noir program as for proving & verifying but instead of executing those steps, just obtains the gatecount. 
+
+For a single set of parameters, the output is saved in `output/benchmarks.txt`:
+```bash
+$ ./cleanup.sh
+$ ./run_get_gatecount.sh
+```
+
+Running multiple benchmarks at once, gathering output in `benches/benchmarks.csv`:
+```bash
+$ ./cleanup.sh
+$ ./run_get_multiple_gatecounts.sh
 ```
