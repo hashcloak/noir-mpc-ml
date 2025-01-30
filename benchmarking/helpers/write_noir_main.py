@@ -9,7 +9,7 @@ def generate_noir_code(samples_train, epochs, learning_rate, ratio, num_features
     """
     noir_code = f"""
 use noir_mpc_ml::ml::train_multi_class;
-use fixedpoint::quantized::Quantized;
+use noir_mpc_ml::quantized::Quantized;
 
 fn main(inputs: [[Quantized; {num_features}]; {samples_train}], labels: [[Quantized; {samples_train}]; {num_classes}]) -> pub [([Quantized; {num_features}], Quantized); {num_classes}] {{
     let learning_rate = {learning_rate};
@@ -17,8 +17,8 @@ fn main(inputs: [[Quantized; {num_features}]; {samples_train}], labels: [[Quanti
 
     let epochs = {epochs};
 
-    let learning_rate = Quantized::new(learning_rate);
-    let ratio = Quantized::new(ratio);
+    let learning_rate = Quantized::new_pos(learning_rate);
+    let ratio = Quantized::new_pos(ratio);
     let parameters = train_multi_class(epochs, inputs, labels, learning_rate, ratio);
     parameters
 }}
